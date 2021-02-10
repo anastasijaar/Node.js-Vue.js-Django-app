@@ -125,6 +125,7 @@ const deleteOneRow = (req, res) => {
     });
 }
 
+
 //prikaz svih knjiga
 rtr.get('/library', readAllBooks);
 
@@ -139,5 +140,9 @@ rtr.put('/book/:id', updateOneRow);
 
 // Brisanje poruke (vraca korisniku ceo red iz baze)
 rtr.delete('/book/:id', deleteOneRow);
+
+rtr.get("/login", (req, res) => {
+    return res.send('login');
+})
 
 module.exports = rtr;
