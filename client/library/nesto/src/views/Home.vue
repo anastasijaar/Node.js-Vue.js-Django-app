@@ -1,5 +1,12 @@
 <template>
   <div class="container">
+
+    <div>
+      <h1>Hi {{ username }}</h1>
+      <p>{{ secretMessage }}</p>
+      <input type="button" value="Logout" @click="logout" />
+    </div>
+
     <div class="row">
       <!-- Forma za read -->
       <div class="col-12">
@@ -27,15 +34,29 @@
 <script>
 // @ is an alias to /src
 import axios from "axios";
+import AuthService from '@/services/AuthService.js';
 
 export default {
   name: 'Home',
   data() {
     return {
       allData: [],
+      secretMessage: '',
+      username: ''
     };
   },
+    async created() {
+      if (!this.$store.getters.isLoggedIn) {
+        this.$router.push('/login');
+      }
+      this.username = this.$store.getters.getUser.username;
+      this.secretMessage = await AuthService.getSecretContent();
+    },
   methods: {
+    logout() {
+      this.$store.dispatch('logout');
+      this.$router.push('/login');
+    },
     getData: function (e) {
       e.preventDefault();
 
