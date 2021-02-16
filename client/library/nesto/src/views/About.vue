@@ -193,7 +193,7 @@ export default {
       }
 
       if (this.addName && this.addCountry && this.addTitle) {
-        axios.post('/api/library', data)
+        axios.post('http://localhost:3000/api/library', data)
             .then(response => console.log(response))
             .catch(error => console.error(error));
       } else {
@@ -240,7 +240,7 @@ export default {
       }
 
       if (this.id) {
-        axios.put('/api/book/' + this.id, data)
+        axios.put('http://localhost:3000/api/book/' + this.id, data)
             .then(response => console.log(response))
             .catch(error => console.error(error));
       }
@@ -256,7 +256,7 @@ export default {
 
 
       if (this.deleteId) {
-        axios.delete('/api/book/' + this.deleteId)
+        axios.delete('http://localhost:3000/api/book/' + this.deleteId)
             .then(response => console.log(response))
             .catch(error => console.error(error));
       }

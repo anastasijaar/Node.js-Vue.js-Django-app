@@ -27,8 +27,8 @@ const jwt = require('jsonwebtoken');
 const userMiddleware = require('../middleware/users.js');
 
 rtr.post('/sign-up', userMiddleware.validateRegister, (req, res, next) => {
-    db.query(
-        `SELECT * FROM users WHERE LOWER(username) = LOWER(${db.escape(
+    pool.query(
+        `SELECT * FROM users WHERE LOWER(username) = LOWER(${pool.escape(
             req.body.username
         )});`,
         (err, result) => {
@@ -45,11 +45,11 @@ rtr.post('/sign-up', userMiddleware.validateRegister, (req, res, next) => {
                         });
                     } else {
                         // has hashed pw => add to database
-                        db.query(
-                            `INSERT INTO users (id, username, password, registered) VALUES ('${uuid.v4()}', ${db.escape(
+                        pool.query(
+                            `INSERT INTO users (id, username, password, registered) VALUES ('${uuid.v4()}', ${pool.escape(
                                 req.body.username
                                 //ignorise SQL injection
-                            )}, ${db.escape(hash)}, now())`,
+                            )}, ${pool.escape(hash)}, now())`,
                             (err, result) => {
                                 if (err) {
                                     throw err;
@@ -70,8 +70,8 @@ rtr.post('/sign-up', userMiddleware.validateRegister, (req, res, next) => {
 });
 
 rtr.post('/login', (req, res, next) => {
-    db.query(
-        `SELECT * FROM users WHERE username = ${db.escape(req.body.username)};`,
+    pool.query(
+        `SELECT * FROM users WHERE username = ${pool.escape(req.body.username)};`,
         (err, result) => {
             // user does not exists
             if (err) {
@@ -107,7 +107,7 @@ rtr.post('/login', (req, res, next) => {
                                 expiresIn: '7d'
                             }
                         );
-                        db.query(
+                        pool.query(
                             `UPDATE users SET last_login = now() WHERE id = '${result[0].id}'`
                         );
                         return res.status(200).send({

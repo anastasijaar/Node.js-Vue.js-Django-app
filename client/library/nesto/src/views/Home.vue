@@ -34,7 +34,7 @@
 <script>
 // @ is an alias to /src
 import axios from "axios";
-import AuthService from '@/services/AuthService.js';
+import AuthService from '../services/AuthService.js';
 
 export default {
   name: 'Home',
@@ -60,7 +60,7 @@ export default {
     getData: function (e) {
       e.preventDefault();
 
-      axios.get('/api/library')
+      axios.get('http://localhost:3000/api/library')
           .then(response => this.allData = response.data)
           .catch(error => console.error(error));
     },
